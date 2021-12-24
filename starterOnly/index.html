@@ -57,60 +57,55 @@
         <div class="content">
           <span class="close"></span>
 
+          <!--formulaire d'inscription-->
           <div class="modal-body">
-            <form
-              id="form"
-              name="reserve"
-              action="ok.html"
-              method="get"
-              onsubmit="return validate();"
-            >
+            <form name="reserve" action="index.html" method="get">
               <div class="formData">
-                <label>Prénom</label><br />
+                <label for="first">Prénom</label><br />
                 <input
                   class="text-control"
                   type="text"
                   id="first"
                   name="first"
                 /><br />
-                <small id="erreurPrenom"></small>
+                <small id="firstError"></small>
               </div>
 
               <div class="formData">
-                <label>Nom</label><br />
+                <label for="last">Nom</label><br />
                 <input
                   class="text-control"
                   type="text"
                   id="last"
                   name="last"
                 /><br />
-                <small id="erreurNom"></small>
+                <small id="lastError"></small>
               </div>
 
               <div class="formData">
-                <label>E-mail</label><br />
+                <label for="email">E-mail</label><br />
                 <input
                   class="text-control"
                   type="email"
                   id="email"
                   name="email"
                 /><br />
-                <small id="erreurMail"></small>
+                <small id="emailError"></small>
               </div>
 
               <div class="formData">
-                <label>Date de naissance</label><br />
+                <label for="birthdate">Date de naissance</label><br />
                 <input
                   class="text-control"
                   type="date"
                   id="birthdate"
                   name="birthdate"
                 /><br />
-                <small id="erreurBirthdate"></small>
+                <small id="birthdateError"></small>
               </div>
 
               <div class="formData">
-                <label
+                <label for="quantity"
                   >À combien de tournois GameOn avez-vous déjà participé
                   ?</label
                 ><br />
@@ -122,6 +117,7 @@
                   min="0"
                   max="99"
                 />
+                <small id="quantityError"></small>
               </div>
 
               <p class="text-label">
@@ -195,6 +191,7 @@
                   <span class="checkbox-icon"></span>
                   Portland</label
                 >
+                <small id="locationError"></small>
               </div>
 
               <div class="formData">
@@ -209,7 +206,7 @@
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
                 <br />
-                <small id="erreurTermes"></small>
+                <small id="conditionError"></small>
 
                 <input class="checkbox-input" type="checkbox" id="checkbox2" />
                 <label class="checkbox2-label" for="checkbox2">
@@ -223,14 +220,25 @@
                 type="submit"
                 class="button"
                 value="C'est parti"
-                id="submitBtn"
               />
             </form>
-            <p id="erreur" style="color: red"></p>
+            <small id="formError"></small>
+
+            <div class="thanks" id="thanks" style="display: none">
+              <div class="thanks-message">
+                Thank you for submitting your registration details
+              </div>
+              <button class="form-submit closeModal" type="button">
+                Fermer
+              </button>
+            </div>
           </div>
+
+          <!--fin du formulaire-->
         </div>
       </div>
     </main>
+
     <footer>
       <p class="copyrights">Copyright 2014 - 2020, GameOn Inc.</p>
     </footer>

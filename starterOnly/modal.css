@@ -536,3 +536,9 @@ small {
   justify-content: flex-start;
   padding: 2px 0 10px;
 }
+.input-error {
+  border: solid 2px red;
+}
+.input-validate {
+  border: solid 2px rgb(2, 190, 2);
+}
