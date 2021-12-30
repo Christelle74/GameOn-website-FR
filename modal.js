@@ -7,132 +7,131 @@ function editNav() {
   }
 }
 
-// DOM Elements
+// DOM Elements : on pointe les éléments nécessaires
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-
 const closeModal = document.querySelector(".close");
-const formValidation = document.getElementsByTagName("reserve"); //on pointe le formulaire global
-const firstName = document.getElementById("first");
-const lastName = document.getElementById("last");
-const email = document.getElementById("email");
-const howMany = document.getElementsByTagName("quantity");
-const birthdate = document.getElementById("birthdate");
-const towns = document.getElementsByName("location");
-const termes = document.getElementById("checkbox1");
+const form = document.getElementById("reserve"); //on pointe le formulaire global //const form = document.forms["modalForm"];
+const firstName = document.querySelector("input[name=first]");
+const lastName = document.querySelector("input[name=last]");
+const email = document.querySelector("input[name=email]");
+const birthdate = document.querySelector("input[name=birthdate]");
+const quantity = document.querySelector("input[name=quantity]");
+const city = document.querySelectorAll("input[type=radio]");
+const termes = document.querySelector("input[type=checkbox]");
+const modalThanks = document.querySelector("#thanks");
+const closeThanks = document.querySelector(".closeThanks");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
-// launch modal form
+// launch modal for
 function launchModal() {
   modalbg.style.display = "block";
+  modalThanks.style.display = "none"; //le modalThanks disparait
+  let inputs = Array.from(document.querySelectorAll(".input-validate"));
+  inputs.forEach((input) => input.classList.remove("input-validate"));
+  form.style.display = "block";
 }
 
-//mon travail ------------------------------------------------
-//lier les labels aux ids dans l'html
-
-// close modal form when click on X
-closeModal.addEventListener("click", () => {
+//fermeture du formulaire
+function closeFormModal() {
   modalbg.style.display = "none";
-});
+}
 
-//regex
-let regexNomPrenom = /^[A-Za-zÀ-ÿ-']{2,20}$/; //de 2 à 20 caractères, n'accepte pas les espaces
-let regexMail =
-  /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //RFC 5322
-let birthdateRegex =
-  /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+// fermeture du formulaire avec la X
+closeModal.addEventListener("click", closeFormModal);
 
-/*//evenement sur le click
-formValidation.addEventListener("submit", (e) => {
-  e.preventDefault(); //prevenir du changement de page au submit
-});*/
+//Evenements
+firstName.addEventListener("input", firstValidation);
+lastName.addEventListener("input", lastValidation);
+email.addEventListener("input", mailValidation);
+birthdate.addEventListener("input", birthdateValidation);
+quantity.addEventListener("input", quantityValidation);
+termes.addEventListener("input", termesValidation);
+closeThanks.addEventListener("click", closeFormModal);
 
-//validation du formulaire dans sa globalité
-let formError = document.getElementById("formError");
-const inputs = document.querySelectorAll("input");
+for (i = 0; i < city.length; i++) {
+  city[i].addEventListener("change", citiesValidation); //evenement sur chaque bouton ville
+}
+//[].slice.call(city).forEach(city => city.addEventListener('change', citiesValidation))//une autre façon de faire
 
-//console.log(inputs);
-
-reserve.addEventListener("submit", function (e) {
-  let inputs = this;
-
-  for (i = 0; i < inputs.length; i++) {
-    if (inputs[i].value === false) {
-      e.preventDefault();
-      console.log(inputs[i].value);
-      formError = "Veuillez renseigner tous les champs";
-      return false;
-    }
-  }
-});
-
-//vérification de la bonne saisie du champ prénom avec regex
-firstName.addEventListener("input", function validationPrenom() {
-  let erreurPrenom = document.getElementById("firstError"); //pointe le "span" ajouté à l'html
-  //console.log(validationPrenom.target.value);
+//validation du champ prénom
+function firstValidation() {
+  let regexName = /^[A-Za-zÀ-ÿ-']{2,20}$/;
+  //console.log(firstName.value);
 
   if (firstName.value === "") {
     firstName.classList.add("input-error");
-    erreurPrenom.innerHTML = "Veuillez saisir au minimum 2 caractères.";
+    firstName.classList.remove("input-validate");
+    firstError.innerHTML = "Veuillez saisir au minimum 2 caractères.";
     return false;
-  } else if (regexNomPrenom.test(firstName.value) === false) {
+  } else if (regexName.test(firstName.value) === false) {
     firstName.classList.add("input-error");
-    erreurPrenom.innerHTML = "Format incorrect.";
+    firstName.classList.remove("input-validate");
+    firstError.innerHTML = "Format incorrect.";
     return false;
   } else {
     firstName.classList.remove("input-error");
-    erreurPrenom.innerHTML = "";
+    firstName.classList.add("input-validate");
+    firstError.innerHTML = "";
     return true;
   }
-});
+}
 
 //vérification de la bonne saisie du champ nom avec regex
-lastName.addEventListener("input", function validationNom() {
-  let erreurNom = document.getElementById("lastError");
-  //console.log(validationNom.target.value);
+function lastValidation() {
+  let regexName = /^[A-Za-zÀ-ÿ-']{2,20}$/;
+  //console.log(lastName.value);
 
-  if (lastName.value === "") {
+  if (lastName.value.trim() === "") {
     lastName.classList.add("input-error");
-    erreurNom.innerHTML = "Veuillez saisir au minimum 2 caractères.";
+    lastName.classList.remove("input-validate");
+    lastError.innerHTML = "Veuillez saisir au minimum 2 caractères.";
     return false;
-  } else if (regexNomPrenom.test(lastName.value) == false) {
+  } else if (regexName.test(lastName.value) == false) {
     lastName.classList.add("input-error");
-    erreurNom.innerHTML = "Format incorrect";
+    lastName.classList.remove("input-validate");
+    lastError.innerHTML = "Format incorrect";
     return false;
   } else {
     lastName.classList.remove("input-error");
-    erreurNom.innerHTML = "";
+    lastName.classList.add("input-validate");
+    lastError.innerHTML = "";
     return true;
   }
-});
+}
 
 // vérification de la bonne saisie du champ email avec regex
-email.addEventListener("input", function mailValidation() {
-  let erreurMail = document.getElementById("emailError");
-  //console.log(mailValidation.target.value);
+function mailValidation() {
+  //console.log(email.value);
+  let regexMail =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //RFC 5322
 
-  if (email.value === "") {
+  if (email.value.trim() === "") {
     email.classList.add("input-error");
-    erreurMail.innerHTML = "Veuillez saisir votre adresse mail";
+    email.classList.remove("input-validate");
+    emailError.innerHTML = "Veuillez saisir votre adresse mail";
     return false;
   } else if (regexMail.test(email.value) == false) {
     email.classList.add("input-error");
-    erreurMail.innerHTML = "Format incorrect";
+    email.classList.remove("input-validate");
+    emailError.innerHTML = "Format incorrect";
     return false;
   } else {
     email.classList.remove("input-error");
-    erreurMail.innerHTML = "";
+    email.classList.add("input-validate");
+    emailError.innerHTML = "";
     return true;
   }
-});
+}
 
 //verification de la saisie de la date de naissance
-birthdate.addEventListener("input", function birthdateValidation() {
-  let birthdateError = document.getElementById("birthdateError");
-  //console.log(birthdateValidation.target.value); Verifier la valeur saisie
+function birthdateValidation() {
+  let birthdateRegex =
+    /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+  //console.log(birthdate.value); //Verifier la valeur saisie
 
   let userBthd = new Date(birthdate.value); //saisie de l'utilisateur
   //console.log(userBthd);
@@ -149,36 +148,39 @@ birthdate.addEventListener("input", function birthdateValidation() {
   let userAge = ~~((today - userBthd) / 31557600000); //calcul de l'age de l'utilisateur
 
   //si la saisie est nulle ou dépasse la date d'aujourd'hui ou le format est faux alors date invalide
-  if (birthdate.value === "" || msUserBthd > msToday) {
+  if (birthdate.value.trim() === "" || msUserBthd > msToday) {
     birthdate.classList.add("input-error");
+    birthdate.classList.remove("input-validate");
     birthdateError.innerHTML = "Veuillez saisir une date valide";
     return false;
   } else if (birthdate.value.match(birthdateRegex) == false) {
     birthdate.classList.add("input-error");
+    birthdate.classList.remove("input-validate");
     birthdateError.innerHTML = "Veuillez saisir une date valide";
     return false;
 
     // si l'utilisateur est âgé de moins de 15 ans à la date d'inscription
   } else if (userAge < 15) {
     birthdate.classList.add("input-error");
+    birthdate.classList.remove("input-validate");
     birthdateError.innerHTML = "Age minimum requis 15 ans";
     return false;
   } else {
     birthdate.classList.remove("input-error");
+    birthdate.classList.add("input-validate");
     birthdateError.innerHTML = "";
     return true;
   }
-});
+}
 
 // Verification quantité participations
-quantity.addEventListener("input", function quantityValidation() {
-  let quantityError = document.getElementById("quantityError");
-  //console.log(quantityValidation.target.value);
+function quantityValidation() {
+  //console.log(quantity.value);
 
-  if ((quantity.value === "") != quantity.value < 0) {
+  if (((quantity.value === "") != quantity.value < 0) != quantity.value > 99) {
     quantity.classList.add("input-error");
     quantity.classList.remove("input-validate");
-    quantityError.innerHTML = "Veuillez choisir un nombre";
+    quantityError.innerHTML = "Veuillez choisir un nombre de 0 à 99";
     return false;
   } else {
     quantity.classList.remove("input-error");
@@ -186,29 +188,26 @@ quantity.addEventListener("input", function quantityValidation() {
     quantityError.innerHTML = "";
     return true;
   }
-});
+}
 
-// verification des radios lieux
-let locationError = document.getElementById("locationError");
+// verification des radios villes
+function citiesValidation() {
+  console.log(city.value);
 
-for (let i = 0; i < towns.length; i++) {
-  towns[i].addEventListener("input", function locationValidation() {
-    if (towns[i].checked) {
-      locationError.innerHTML = "Vous avez choisi " + towns[i].value;
-      let value = this.value;
-      //console.log(value);
+  for (let i = 0; i < city.length; i++) {
+    if (city[i].checked) {
+      cityError.innerHTML = "Vous avez choisi " + city[i].value;
+      cityError.style.color = "#279e7a";
       return true;
-    } else {
-      locationError.innerHTML = "Veuillez choisir une ville";
-      return false;
     }
-  });
+  }
+  cityError.innerHTML = "Veuillez choisir une ville";
+  return false;
 }
 
 // Verification conditions d'utilisation est coché
-termes.addEventListener("input", function termesValidation() {
-  let conditionError = document.getElementById("conditionError");
-  //console.log(termesValidation.target.value);
+function termesValidation() {
+  //console.log(termes.value);
 
   if (!termes.checked) {
     conditionError.innerHTML = "Veuillez accepter les conditions d'utilisation";
@@ -217,4 +216,61 @@ termes.addEventListener("input", function termesValidation() {
     conditionError.innerHTML = "";
     return true;
   }
+}
+
+//validation du formulaire global-------------------------------------
+//evenement sur le submit et on prévient l'envoi en cas d'erreur
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  globalValidation();
 });
+
+function globalValidation() {
+  // Vérifier que tous les champs sont remplis et valides
+
+  let validation = true;
+  if (!firstValidation()) {
+    console.log("%cprénom non valide", "color: #e74c3c");
+    validation = false;
+  }
+  if (!lastValidation()) {
+    console.log("%cnom non valide", "color: #e67e22");
+    validation = false;
+  }
+  if (!mailValidation()) {
+    console.log("%cmail non valide", "color: #3498db");
+    validation = false;
+  }
+  if (!birthdateValidation()) {
+    console.log("%cdate de naissance non valide", "color: #e74c3c");
+    validation = false;
+  }
+
+  if (!quantityValidation()) {
+    console.log("%cnombre d'évènements non valide", "color: #9b59b6");
+    validation = false;
+  }
+
+  if (!citiesValidation()) {
+    console.log("%caucune ville cochée", "color: #1abc9c");
+    validation = false;
+  }
+
+  if (!termesValidation()) {
+    console.log("case conditions d'utilisation non cochée");
+    validation = false;
+  }
+
+  if (validation === true) {
+    formError.innerHTML = "";
+    form.reset(); //on efface le formulaire si ok
+    form.style.display = "none"; // Ferme la modale si OK
+    openThanksModal(); // Afficher la modale de remerciement si OK
+  } else {
+    formError.innerHTML = "Veuillez renseigner tous les champs"; // Afficher les erreurs si pas OK
+  }
+}
+//ouverture de la modale Thanks si formulaire ok
+function openThanksModal() {
+  modalThanks.style.display = "block";
+}

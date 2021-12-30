@@ -22,8 +22,7 @@
       </div>
 
       <div class="main-navbar">
-        <a href="#" class="active"><span>Accueil</span></a>
-        <a href="#"><span>Détails de l'évènement</span></a>
+        <a href="#" class="active"><span>Détails de l'évènement</span></a>
         <a href="#"><span>À propos</span></a>
         <a href="#"><span>Contact</span></a>
         <a href="#"><span>Évènements passés</span></a>
@@ -59,7 +58,7 @@
 
           <!--formulaire d'inscription-->
           <div class="modal-body">
-            <form name="reserve" action="index.html" method="get">
+            <form name="reserve" id="reserve" action="index.html" method="get">
               <div class="formData">
                 <label for="first">Prénom</label><br />
                 <input
@@ -191,7 +190,7 @@
                   <span class="checkbox-icon"></span>
                   Portland</label
                 >
-                <small id="locationError"></small>
+                <small id="cityError"></small>
               </div>
 
               <div class="formData">
@@ -220,23 +219,22 @@
                 type="submit"
                 class="button"
                 value="C'est parti"
+                id="btn-submit"
               />
             </form>
             <small id="formError"></small>
-
-            <div class="thanks" id="thanks" style="display: none">
+            <div class="thanks" id="thanks">
               <div class="thanks-message">
-                Thank you for submitting your registration details
+                <p>Thank you for submitting your registration details</p>
+                <button class="button closeThanks">Fermer</button>
               </div>
-              <button class="form-submit closeModal" type="button">
-                Fermer
-              </button>
             </div>
           </div>
 
           <!--fin du formulaire-->
         </div>
       </div>
+      <!--Fin du modalbg-->
     </main>
 
     <footer>
