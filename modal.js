@@ -7,7 +7,7 @@ function editNav() {
   }
 }
 
-// DOM Elements : on pointe les éléments nécessaires
+// DOM Elements : on pointe les éléments du DOM
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
@@ -29,10 +29,10 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal for
 function launchModal() {
   modalbg.style.display = "block";
-  modalThanks.style.display = "none"; //le modalThanks disparait
-  let inputs = Array.from(document.querySelectorAll(".input-validate"));
+  modalThanks.style.display = "none"; //le modalThanks n'apparait pas à l'ouverture du formulaire
+  let inputs = Array.from(document.querySelectorAll(".input-validate")); //effacer le contour vert des champs
   inputs.forEach((input) => input.classList.remove("input-validate"));
-  form.style.display = "block";
+  form.style.display = "block"; // apparition du corps du formulaire
 }
 
 //fermeture du formulaire
@@ -195,8 +195,9 @@ function citiesValidation() {
   console.log(city.value);
 
   for (let i = 0; i < city.length; i++) {
+    //boucle qui vérifie chaque bouton radio
     if (city[i].checked) {
-      cityError.innerHTML = "Vous avez choisi " + city[i].value;
+      cityError.innerHTML = "Vous avez choisi " + city[i].value; //on retourne la valeur choisie
       cityError.style.color = "#279e7a";
       return true;
     }
@@ -226,7 +227,7 @@ form.addEventListener("submit", (e) => {
 });
 
 function globalValidation() {
-  // Vérifier que tous les champs sont remplis et valides
+  // Vérifier que chaque champ est rempli et valide(moyen de repère du champ invalide)
 
   let validation = true;
   if (!firstValidation()) {
@@ -262,10 +263,10 @@ function globalValidation() {
   }
 
   if (validation === true) {
-    formError.innerHTML = "";
-    form.reset(); //on efface le formulaire si ok
+    formError.innerHTML = ""; // si le formulaire est bien rempli, pas de message d'erreur
+    form.reset(); // le formulaire s'efface
     form.style.display = "none"; // Ferme la modale si OK
-    openThanksModal(); // Afficher la modale de remerciement si OK
+    openThanksModal(); // Afficher la modale de remerciement si OK, fonction en dessous
   } else {
     formError.innerHTML = "Veuillez renseigner tous les champs"; // Afficher les erreurs si pas OK
   }
